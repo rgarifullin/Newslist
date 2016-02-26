@@ -13,3 +13,19 @@
  *= require_tree .
  *= require_self
  */
+@import "bootstrap";
+
+body {
+  width: 70%;
+  max-width: 800px;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.news {
+  float: left;
+}
+
+.statistics {
+  float:right;
+}
