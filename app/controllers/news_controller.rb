@@ -1,6 +1,7 @@
 class NewsController < ApplicationController
   def index
     @newslist = News.all
+    @total = News.count
   end
 
   def create

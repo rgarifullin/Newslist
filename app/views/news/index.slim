@@ -1,5 +1,21 @@
 section.news
+  h2 News
   - for news in @newslist
     == render partial: 'news', locals: { news: news }
+  - if can? :create, News
+    = link_to 'Add news', new_news_path(), class: 'add-news'
 
-aside.statistics
+- if can? :stats, News
+  aside.statistics
+    h2 Statistics
+    section
+      p Total news:
+      = @total
+    section
+      p Readed news:
+
+    section
+      p Today's news:
+
+    section
+      p Today's readed news:
