@@ -4,10 +4,20 @@ class NewsController < ApplicationController
     @total = News.count
   end
 
-  def create
-    @news = News.new(news_params)
+  def new
+    @news = News.new
+  end
 
-    @news.save
+  def create
+    news = News.new(news_params)
+    if news.save
+      flash[:success] = t('flash_messages.create.success', resource: @news)
+      redirect_to news_path
+    else
+      flash[:error] = t('flash_messages.create.failure', resource: @news)
+      @news = news
+      render :new
+    end
   end
 
   private
