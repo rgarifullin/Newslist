@@ -1,6 +1,6 @@
 <section class=news>
-  <% for news in newslist %>
-    <%= render partial: 'news', locals: { news: @newslist } %>
+  <% for news in @newslist %>
+    <%= render partial: 'news', locals: { news: news } %>
   <% end %>
 </section>
 
