@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160226135841) do
+ActiveRecord::Schema.define(version: 20160228192251) do
 
   create_table "news", force: :cascade do |t|
     t.string   "author"
@@ -23,9 +23,9 @@ ActiveRecord::Schema.define(version: 20160226135841) do
   create_table "newsusers", force: :cascade do |t|
     t.integer  "news_id"
     t.integer  "user_id"
-    t.boolean  "read"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.boolean  "read",       default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   add_index "newsusers", ["news_id"], name: "index_newsusers_on_news_id"
