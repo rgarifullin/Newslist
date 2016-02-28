@@ -2,3 +2,6 @@ article
   p.author = news.author
   p.newstext = news.text
   time.pubdate = news.created_at
+  - if current_user
+    / TODO: remove this query from view
+    = check_box_tag 'read', 'readed', news.newsusers.find_by(user_id: current_user).read
