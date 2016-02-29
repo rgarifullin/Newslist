@@ -3,6 +3,8 @@ class NewsController < ApplicationController
     @newslist = News.all
     @total = News.count
 
+    search if params[:commit]
+
     read_statistics if current_user
   end
 
@@ -37,5 +39,31 @@ class NewsController < ApplicationController
       @readed_today += 1 if news.newsusers.find_by(read: true,
                                                    user_id: current_user)
     end
+  end
+
+  def search
+    unless params[:text].empty?
+      @newslist = @newslist.where('author LIKE ? OR text LIKE ?',
+                                  "%#{params[:text]}%", "%#{params[:text]}%")
+    end
+
+    if params[:end_date].empty?
+      params[:end_date] = Date.today.tomorrow.strftime("%Y-%m-%d")
+    end
+    @newslist =
+      @newslist.where(created_at: params[:start_date]..params[:end_date])
+
+    final = []
+    @newslist.each do |item|
+      case params[:status]
+      when 'readed'
+        final << item if current_user.read?(current_user, item)
+      when 'unreaded'
+        final << item unless current_user.read?(current_user, item)
+      else
+        return
+      end
+    end
+    @newslist = final if final
   end
 end
