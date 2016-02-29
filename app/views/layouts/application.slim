@@ -9,6 +9,9 @@ html
   body
     header.navigation
       = link_to News, '/'
-      - if current_user
-        = link_to 'Sign out', destroy_user_session_path, method: 'delete'
+      .nav-right
+        - if current_user
+          = link_to 'Sign out', destroy_user_session_path, method: 'delete'
+        - else
+          = link_to 'Sign in', new_user_session_path
     = yield
