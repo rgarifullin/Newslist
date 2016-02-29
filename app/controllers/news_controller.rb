@@ -24,6 +24,19 @@ class NewsController < ApplicationController
     end
   end
 
+  def change_status
+    newsuser = current_user.newsusers.find_by(news_id: params[:news_id])
+    if newsuser.nil?
+      newsuser = current_user.newsusers.create(news_id: params[:news_id], read: true)
+      newsuser.save
+    else
+      newsuser.read ^= true
+      newsuser.save
+    end
+
+    redirect_to news_index_path
+  end
+
   private
 
   def news_params

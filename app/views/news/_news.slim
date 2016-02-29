@@ -3,6 +3,6 @@ article
   p.newstext = news.text
   time.pubdate = news.created_at
   - if current_user.read?(current_user, news)
-    = check_box_tag 'read', 'readed', true
+    = link_to 'Unread', news_change_status_path(news), class: 'btn btn-danger', method: 'patch'
   - else
-    = check_box_tag 'read', 'readed', false
+    = link_to 'Read', news_change_status_path(news), class: 'btn btn-primary', method: 'patch'
