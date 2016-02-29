@@ -1,7 +1,6 @@
 class NewsController < ApplicationController
   def index
     @newslist = News.all
-    @total = News.count
 
     search if params[:commit]
 
@@ -44,6 +43,7 @@ class NewsController < ApplicationController
   end
 
   def read_statistics
+    @total = News.count
     @total_readed = Newsuser.where(user_id: current_user, read: true).count
     today_news = News.where(created_at: Date.current..Date.current + 1)
     @today = today_news.size
