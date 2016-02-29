@@ -3,16 +3,7 @@ class NewsController < ApplicationController
     @newslist = News.all
     @total = News.count
 
-    return unless current_user
-
-    @total_readed = Newsuser.where(user_id: current_user, read: true).count
-    today_news = News.where(created_at: Date.current..Date.current + 1)
-    @today = today_news.size
-    @readed_today = 0
-    today_news.each do |news|
-      @readed_today += 1 if news.newsusers.find_by(read: true,
-                                                   user_id: current_user)
-    end
+    read_statistics if current_user
   end
 
   def new
@@ -35,5 +26,16 @@ class NewsController < ApplicationController
 
   def news_params
     params.require(:news).permit(:author, :text)
+  end
+
+  def read_statistics
+    @total_readed = Newsuser.where(user_id: current_user, read: true).count
+    today_news = News.where(created_at: Date.current..Date.current + 1)
+    @today = today_news.size
+    @readed_today = 0
+    today_news.each do |news|
+      @readed_today += 1 if news.newsusers.find_by(read: true,
+                                                   user_id: current_user)
+    end
   end
 end
