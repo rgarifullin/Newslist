@@ -8,6 +8,7 @@ class NewsController < ApplicationController
   end
 
   def new
+    redirect_to root_path unless can? :manage, News
     @news = News.new
   end
 
