@@ -5,6 +5,10 @@ class NewsController < ApplicationController
     search if params[:commit]
 
     read_statistics if current_user
+    respond_to do |format|
+      format.json { render json: @newslist }
+      format.html {}
+    end
   end
 
   def new

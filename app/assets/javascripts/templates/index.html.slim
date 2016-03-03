@@ -1,0 +1,9 @@
+section.newslist
+  h2 News
+  article ng-repeat="post in posts"
+    p.author
+      | {{ post.author }}
+    p.newstext
+      | {{ post.text }}
+    time.pubdate
+      | {{ post.created_at }}

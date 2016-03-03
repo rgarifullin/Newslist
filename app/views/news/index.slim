@@ -5,10 +5,8 @@
   = search_field_tag :text, params[:text], placeholder: 'Search news'
   = submit_tag 'Search'
 
-.newslist
-  section.news
-    h2 News
-    = render partial: 'news', collection: @newslist
+.newslist ng-app='newslist'
+  section.news.view-frame.animate-view (ng-view)
   - if can? :create, News
     = link_to 'Add news', new_news_path(), class: 'add_news btn btn-success', remote: true
     #news_modal.modal.fade
