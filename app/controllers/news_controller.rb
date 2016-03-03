@@ -51,11 +51,11 @@ class NewsController < ApplicationController
     @total_readed = Newsuser.where(user_id: current_user, read: true).count
     today_news = News.where(created_at: Date.current..Date.current + 1)
     @today = today_news.size
-    @readed_today = 0
-    today_news.each do |news|
-      @readed_today += 1 if news.newsusers.find_by(read: true,
-                                                   user_id: current_user)
-    end
+    @readed_today = Newsuser.where(
+      read: true,
+      updated_at: Date.today..Date.today.tomorrow,
+      user_id: current_user
+    ).count
   end
 
   def search
