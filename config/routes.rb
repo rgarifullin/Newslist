@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'news#index'
   resources :news do
-    patch 'change_status' => 'news#change_status'
+    patch 'change_status', on: :member
   end
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
