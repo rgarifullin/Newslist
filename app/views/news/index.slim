@@ -5,12 +5,14 @@
   = search_field_tag :text, params[:text], placeholder: 'Search news'
   = submit_tag 'Search'
 
-section.news
-  h2 News
-  - for news in @newslist
-    = render partial: 'news', locals: { news: news }
+.newslist
+  section.news
+    h2 News
+    = render partial: 'news', collection: @newslist
   - if can? :create, News
-    = link_to 'Add news', new_news_path(), class: 'add-news'
+    = link_to 'Add news', new_news_path(), class: 'add_news btn btn-success', remote: true
+    #news_modal.modal.fade
+      = render partial: 'new', locals: { news: @new_news }
 
 - if can? :stats, News
   = render partial: 'statistics', locals: { total: @total,
