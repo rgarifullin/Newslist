@@ -42,32 +42,6 @@ body {
   }
 }
 
-.news {
-  float: left;
-
-  h2 {
-    @extend .panel-heading;
-  }
-
-  article {
-    @extend .panel, .panel-primary;
-    padding: 10px;
-  }
-}
-
-.statistics {
-  float:right;
-
-  h2 {
-    @extend .panel-heading;
-  }
-
-  section {
-    @extend .panel, .panel-info;
-    padding: 10px;
-  }
-}
-
-.add-news {
-  clear: both;
+#error_explanation {
+  @extend .alert, .alert-danger;
 }
