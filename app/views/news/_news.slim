@@ -4,6 +4,6 @@ article
   time.pubdate = news.created_at
   - if current_user
     - if current_user.read?(current_user, news)
-      = link_to 'Unread', news_change_status_path(news), class: 'btn btn-danger', method: 'patch'
+      = link_to 'Unread', change_status_news_path(news), class: 'btn btn-danger', method: 'patch'
     - else
-      = link_to 'Read', news_change_status_path(news), class: 'btn btn-primary', method: 'patch'
+      = link_to 'Read', change_status_news_path(news), class: 'btn btn-primary', method: 'patch'
