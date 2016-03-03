@@ -15,4 +15,16 @@ html
           = link_to 'Sign out', destroy_user_session_path, method: 'delete'
         - else
           = link_to 'Sign in', new_user_session_path
+
+    - unless flash.blank?
+      - flash.each do |name, msg|
+        - classname_end = ''
+        - case name
+        - when 'notice' then classname_end += 'success'
+        - when 'alert' then classname_end += 'danger'
+        - when 'warning' then classname_end += 'warning'
+        - else classname_end += 'info'
+        - classname = 'alert alert-' + classname_end
+        = content_tag :div, msg, class: classname, role: 'alert'
+
     = yield
