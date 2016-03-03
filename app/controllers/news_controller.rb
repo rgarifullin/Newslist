@@ -1,7 +1,7 @@
 class NewsController < ApplicationController
   def index
     @newslist = News.all
-
+    @new_news = News.new
     search if params[:commit]
 
     read_statistics if current_user
@@ -9,18 +9,21 @@ class NewsController < ApplicationController
 
   def new
     redirect_to root_path unless can? :manage, News
-    @news = News.new
+    @new_news = News.new
   end
 
   def create
     news = News.new(news_params)
-    if news.save
-      flash[:success] = t('flash_messages.create.success', resource: @news)
-      redirect_to news_path
-    else
-      flash[:error] = t('flash_messages.create.failure', resource: @news)
-      @news = news
-      render :new
+    respond_to do |format|
+      if news.save
+        flash[:success] = t('flash_messages.create.success', resource: @news)
+        #redirect_to news_path
+        format.js { render news }
+      else
+        flash[:error] = t('flash_messages.create.failure', resource: @news)
+        @news = news
+        render :new
+      end
     end
   end
 
