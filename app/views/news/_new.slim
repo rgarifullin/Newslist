@@ -1,0 +1,6 @@
+.modal-dialog.modal-content.modal-body
+  h1.modal-header Add
+  = simple_form_for news, remote: true do |f|
+      = f.input :author, label: 'Author'
+      = f.input :text, label: 'News text'
+      = f.button :submit, class: 'create_new btn-primary'
