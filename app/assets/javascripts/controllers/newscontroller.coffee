@@ -8,4 +8,24 @@ controllers.controller('NewsController', [ '$scope', '$routeParams', '$location'
       $scope.total_readed = results.total_readed
       $scope.today = results.today
       $scope.readed_today = results.readed_today
+      $scope.can_add = results.can_add
+
+    NewNews = $resource('/news', { format: 'json' }, { 'create': { method: 'POST' } })
+
+    $scope.save = ->
+      onError = ->
+        alert("Can't create new news")
+      NewNews.create($scope.news, ( ->
+        $location.path('/')),
+        onError
+      )
+
+    $scope.newNews = ->
+      $location.path('/news/new')
+
+    $scope.$on('event:add', (ev, args) ->
+      $scope.news = args
+      $scope.save()
+      News.get()
+    )
 ])

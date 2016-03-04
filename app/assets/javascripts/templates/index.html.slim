@@ -7,6 +7,9 @@ section.news
       | {{ post.text }}
     time.pubdate
       | {{ post.created_at }}
+  /button.btn.btn-success (ng-click='newNews()', ng-show='can_add') Add news
+  .modalForm ng-controller='ModalController' ng-show='can_add'
+    button.btn.btn-success (ng-click='open()') Add news
 
 aside.statistics ng-show="total"
   h2 Statistics

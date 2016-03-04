@@ -1,7 +1,11 @@
 class NewsController < ApplicationController
   def index
     @newslist = News.all
-    @new_news = News.new
+    if can? :add, News
+      new_news = News.new
+      can_add = true
+    end
+
     search if params[:commit]
 
     read_statistics if can? :stats, News
@@ -10,7 +14,8 @@ class NewsController < ApplicationController
                                    total: @total,
                                    total_readed: @total_readed,
                                    today: @today,
-                                   readed_today: @readed_today } }
+                                   readed_today: @readed_today,
+                                   can_add: can_add } }
       format.html {}
     end
   end
@@ -26,7 +31,8 @@ class NewsController < ApplicationController
       if news.save
         flash[:success] = t('flash_messages.create.success', resource: @news)
         #redirect_to news_path
-        format.js { render news }
+        format.json { render json: news }
+        format.html {}
       else
         flash[:error] = t('flash_messages.create.failure', resource: @news)
         @news = news

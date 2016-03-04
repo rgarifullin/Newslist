@@ -7,7 +7,3 @@
 
 .newslist ng-app='newslist'
   .view-frame.animate-view (ng-view)
-  - if can? :create, News
-    = link_to 'Add news', new_news_path(), class: 'add_news btn btn-success', remote: true
-    #news_modal.modal.fade
-      = render partial: 'new', locals: { news: @new_news }

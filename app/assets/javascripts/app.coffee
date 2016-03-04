@@ -3,13 +3,18 @@ app = angular.module('newslist', [
   'ngRoute',
   'ngResource',
   'controllers',
+  'ui.bootstrap'
 ])
 
 app.config([ '$routeProvider',
   ($routeProvider)->
     $routeProvider
       .when('/',
-        templateUrl: "index.html"
+        templateUrl: 'index.html'
+        controller: 'NewsController'
+      )
+      .when('/news/new',
+        templateUrl: 'new.html'
         controller: 'NewsController'
       )
 ])
