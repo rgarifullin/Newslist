@@ -40,6 +40,10 @@ GEM
       railties (>= 4.2, < 6)
       sprockets (~> 3.0)
       tilt
+    angular-ui-bootstrap-rails (0.14.3)
+    angular-ui-rails (0.4.0.3)
+    angular_rails_csrf (1.0.4)
+      rails (>= 3, < 5)
     angularjs-rails (1.5.0)
     arel (6.0.3)
     autoprefixer-rails (6.3.3.1)
@@ -221,6 +225,9 @@ PLATFORMS
 
 DEPENDENCIES
   angular-rails-templates
+  angular-ui-bootstrap-rails
+  angular-ui-rails
+  angular_rails_csrf
   angularjs-rails
   bootstrap-sass
   byebug
