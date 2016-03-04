@@ -6,14 +6,8 @@
   = submit_tag 'Search'
 
 .newslist ng-app='newslist'
-  section.news.view-frame.animate-view (ng-view)
+  .view-frame.animate-view (ng-view)
   - if can? :create, News
     = link_to 'Add news', new_news_path(), class: 'add_news btn btn-success', remote: true
     #news_modal.modal.fade
       = render partial: 'new', locals: { news: @new_news }
-
-- if can? :stats, News
-  = render partial: 'statistics', locals: { total: @total,
-                                            total_readed: @total_readed,
-                                            today: @today,
-                                            readed_today: @readed_today }

@@ -4,9 +4,13 @@ class NewsController < ApplicationController
     @new_news = News.new
     search if params[:commit]
 
-    read_statistics if current_user
+    read_statistics if can? :stats, News
     respond_to do |format|
-      format.json { render json: @newslist }
+      format.json { render json: { newslist: @newslist,
+                                   total: @total,
+                                   total_readed: @total_readed,
+                                   today: @today,
+                                   readed_today: @readed_today } }
       format.html {}
     end
   end
