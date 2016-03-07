@@ -73,14 +73,15 @@ class NewsController < ApplicationController
   end
 
   def search
-    unless params[:text].empty?
+    unless params[:text].nil? || params[:text].empty?
       @newslist = @newslist.where('author LIKE ? OR text LIKE ?',
                                   "%#{params[:text]}%", "%#{params[:text]}%")
     end
 
-    if params[:end_date].empty?
+    if params[:end_date].nil? || params[:end_date].empty?
       params[:end_date] = Date.today.tomorrow.strftime("%Y-%m-%d")
     end
+    params[:start_date] ||= ''
     @newslist =
       @newslist.where(created_at: params[:start_date]..params[:end_date])
 

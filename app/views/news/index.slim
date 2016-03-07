@@ -1,9 +1,2 @@
-= form_tag news_index_path, method: :get, class: 'search' do
-  = date_field_tag :start_date, params[:start_date], placeholder: 'Start date'
-  = date_field_tag :end_date, params[:end_date], placeholder: 'End date'
-  = select_tag :status, options_for_select(['all', 'readed', 'unreaded'], params[:status])
-  = search_field_tag :text, params[:text], placeholder: 'Search news'
-  = submit_tag 'Search'
-
 .newslist ng-app='newslist'
   .view-frame.animate-view (ng-view)
