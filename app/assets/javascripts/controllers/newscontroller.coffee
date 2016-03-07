@@ -26,6 +26,12 @@ controllers.controller('NewsController', [ '$scope', '$routeParams', '$location'
     $scope.$on('event:add', (ev, args) ->
       $scope.news = args
       $scope.save()
-      News.get()
+      News.get (results) ->
+        $scope.posts = results.newslist
+        $scope.total = results.total
+        $scope.total_readed = results.total_readed
+        $scope.today = results.today
+        $scope.readed_today = results.readed_today
+        $scope.can_add = results.can_add
     )
 ])
