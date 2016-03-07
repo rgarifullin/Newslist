@@ -22,7 +22,7 @@
 }
 
 .statistics {
-  float:right;
+  float: right;
 
   h2 {
     @extend .panel-heading;
@@ -36,4 +36,12 @@
 
 .add-news {
   clear: both;
+}
+
+.news-footer {
+  text-align: right;
+
+  p {
+    display: inline;
+  }
 }

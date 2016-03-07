@@ -1,13 +1,14 @@
 section.news
   h2 News
   article ng-repeat="post in posts"
-    p.author
-      | {{ post.author }}
     p.newstext
       | {{ post.text }}
-    time.pubdate
-      | {{ post.created_at }}
-  /button.btn.btn-success (ng-click='newNews()', ng-show='can_add') Add news
+    footer.news-footer
+      p.author
+        | {{ post.author }} -
+      time.pubdate
+        | {{ post.created_at | date }}
+
   .modalForm ng-controller='ModalController' ng-show='can_add'
     button.btn.btn-success (ng-click='open()') Add news
 
