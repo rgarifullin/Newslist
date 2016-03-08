@@ -4,7 +4,8 @@ controllers.controller('NewsController', [ '$scope', '$routeParams', '$location'
     News = $resource('/news', { format: 'json' })
 
     News.get (results) ->
-      $scope.posts = results.newslist
+      $scope.data = results.newslist.map (item, i) ->
+        { post: item, status: results.read_status[i] }
       $scope.total = results.total
       $scope.total_readed = results.total_readed
       $scope.today = results.today
@@ -28,16 +29,24 @@ controllers.controller('NewsController', [ '$scope', '$routeParams', '$location'
       $scope.news = args
       $scope.save()
       News.get (results) ->
-        $scope.posts = results.newslist
+        $scope.data = results.newslist.map (item, i) ->
+          { post: item, status: results.read_status[i] }
         $scope.total = results.total
-        $scope.total_readed = results.total_readed
         $scope.today = results.today
-        $scope.readed_today = results.readed_today
-        $scope.can_add = results.can_add
     )
 
     $scope.search = (start_date, end_date, status, text) ->
       News.get({ start_date: start_date, end_date: end_date, status: status, text: text, commit: 'Search'}, (results) ->
         $scope.posts = results.newslist
       )
+
+    ChangeStatus = $resource('/news/:id/change_status', { id: '@id' }, { 'update': { method: 'PATCH' } })
+    $scope.change_status = (news_id) ->
+      ChangeStatus.update({ id: news_id }, ->
+      )
+      News.get (results) ->
+        $scope.data = results.newslist.map (item, i) ->
+          { post: item, status: results.read_status[i] }
+        $scope.total_readed = results.total_readed
+        $scope.readed_today = results.readed_today
 ])

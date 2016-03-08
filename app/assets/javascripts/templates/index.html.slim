@@ -10,14 +10,16 @@ section.search
 
 section.news
   h2 News
-  article ng-repeat="post in posts"
+  article ng-repeat="item in data"
     p.newstext
-      | {{ post.text }}
+      | {{ item.post.text }}
     footer.news-footer
       p.author
-        | {{ post.author }} -
+        | {{ item.post.author }} -
       time.pubdate
-        | {{ post.created_at | date }}
+        | {{ item.post.created_at | date }}
+    button.btn.btn-sm.btn-default ng-click="change_status(item.post.id)" ng-show="item.status" Unread
+    button.btn.btn-sm.btn-primary ng-click="change_status(item.post.id)" ng-hide="item.status" Read
 
   .modalForm ng-controller='ModalController' ng-show='can_add'
     button.btn.btn-success (ng-click='open()') Add news

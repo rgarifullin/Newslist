@@ -15,6 +15,7 @@ class NewsController < ApplicationController
                                    total_readed: @total_readed,
                                    today: @today,
                                    readed_today: @readed_today,
+                                   read_status: @read_status,
                                    can_add: can_add } }
       format.html {}
     end
@@ -70,6 +71,11 @@ class NewsController < ApplicationController
       updated_at: Date.today..Date.today.tomorrow,
       user_id: current_user
     ).count
+
+    @read_status = []
+    @newslist.each do |news|
+      @read_status << current_user.read?(current_user, news) ? true : false
+    end
   end
 
   def search
