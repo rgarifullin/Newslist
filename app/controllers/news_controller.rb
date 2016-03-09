@@ -11,10 +11,6 @@ class NewsController < ApplicationController
     read_statistics if can? :stats, News
     respond_to do |format|
       format.json { render json: { newslist: @newslist,
-                                   total: @total,
-                                   total_readed: @total_readed,
-                                   today: @today,
-                                   readed_today: @readed_today,
                                    read_status: @read_status,
                                    can_add: can_add,
                                    can_stats: can_stats } }
@@ -63,19 +59,9 @@ class NewsController < ApplicationController
   end
 
   def read_statistics
-    @total = News.count
-    @total_readed = Newsuser.where(user_id: current_user, read: true).count
-    today_news = News.where(created_at: Date.current..Date.current + 1)
-    @today = today_news.size
-    @readed_today = Newsuser.where(
-      read: true,
-      updated_at: Date.today..Date.today.tomorrow,
-      user_id: current_user
-    ).count
-
     @read_status = []
     @newslist.each do |news|
-      @read_status << current_user.read?(news) ? true : false
+      @read_status << if current_user.read?(news) then Newsuser.find_by(user_id: current_user, news_id: news) else false end
     end
   end
 end

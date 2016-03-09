@@ -1,16 +1,26 @@
 controllers = angular.module('controllers')
 controllers.controller('NewsController', [ '$scope', '$routeParams', '$location', '$resource',
   ($scope, $routeParams, $location, $resource) ->
+    MS_PER_DAY = 86400000
+
     News = $resource('/news', { format: 'json' })
 
     News.get (results) ->
       $scope.data = results.newslist.map (item, i) ->
         { post: item, status: if results.read_status then results.read_status[i] else null }
 
-      $scope.total = results.total
-      $scope.total_readed = results.total_readed
-      $scope.today = results.today
-      $scope.readed_today = results.readed_today
+      $scope.total = results.newslist.length
+      $scope.total_readed = (item for item in results.read_status when item).length
+      today_beginning = new Date()
+      today_beginning.setHours(0, 0, 0, 0)
+      $scope.today = 0
+      for item in $scope.data
+        if Date.parse(item.post.created_at) > Date.parse(today_beginning) && Date.parse(item.post.created_at) < Date.parse(today_beginning) + MS_PER_DAY
+          $scope.today += 1
+      $scope.readed_today = 0
+      for item in results.read_status
+        if Date.parse(item.updated_at) > Date.parse(today_beginning) && Date.parse(item.updated_at) < Date.parse(today_beginning) + MS_PER_DAY
+          $scope.readed_today += 1
       $scope.can_add = results.can_add
       $scope.can_stats = results.can_stats
 
@@ -33,8 +43,13 @@ controllers.controller('NewsController', [ '$scope', '$routeParams', '$location'
       News.get (results) ->
         $scope.data = results.newslist.map (item, i) ->
           { post: item, status: if results.read_status then results.read_status[i] else null }
-        $scope.total = results.total
-        $scope.today = results.today
+        $scope.total = results.newslist.length
+        today_beginning = new Date()
+        today_beginning.setHours(0, 0, 0, 0)
+        $scope.today = 0
+        for item in $scope.data
+          if Date.parse(item.post.created_at) > Date.parse(today_beginning) && Date.parse(item.post.created_at) < Date.parse(today_beginning) + MS_PER_DAY
+            $scope.today += 1
     )
 
     $scope.search = (start_date, end_date, status, text) ->
@@ -50,6 +65,11 @@ controllers.controller('NewsController', [ '$scope', '$routeParams', '$location'
       News.get (results) ->
         $scope.data = results.newslist.map (item, i) ->
           { post: item, status: if results.read_status then results.read_status[i] else null }
-        $scope.total_readed = results.total_readed
-        $scope.readed_today = results.readed_today
+        $scope.total_readed = (item for item in results.read_status when item).length
+        today_beginning = new Date()
+        today_beginning.setHours(0, 0, 0, 0)
+        $scope.readed_today = 0
+        for item in results.read_status
+          if Date.parse(item.updated_at) > Date.parse(today_beginning) && Date.parse(item.updated_at) < Date.parse(today_beginning) + MS_PER_DAY
+            $scope.readed_today += 1
 ])
