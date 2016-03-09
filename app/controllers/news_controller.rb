@@ -6,7 +6,7 @@ class NewsController < ApplicationController
       can_add = true
     end
 
-    search if params[:commit]
+    @newslist = Services::NewsSearcher.new(current_user, @newslist, params).search if params[:commit]
 
     read_statistics if can? :stats, News
     respond_to do |format|
