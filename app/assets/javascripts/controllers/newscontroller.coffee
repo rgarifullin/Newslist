@@ -12,6 +12,7 @@ controllers.controller('NewsController', [ '$scope', '$routeParams', '$location'
       $scope.today = results.today
       $scope.readed_today = results.readed_today
       $scope.can_add = results.can_add
+      $scope.can_stats = results.can_stats
 
     NewNews = $resource('/news', { format: 'json' }, { 'create': { method: 'POST' } })
 
