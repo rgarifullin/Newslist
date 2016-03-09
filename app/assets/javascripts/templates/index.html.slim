@@ -18,7 +18,7 @@ section.news
       p.author
         | {{ item.post.author }} -
       time.pubdate
-        | {{ item.post.created_at }}
+        | {{ item.post.created_at | date }}
     .status ng-show="can_stats"
       button.btn.btn-sm.btn-default ng-click="change_status(item.post.id)" ng-show="item.status" Unread
       button.btn.btn-sm.btn-primary ng-click="change_status(item.post.id)" ng-hide="item.status" Read
