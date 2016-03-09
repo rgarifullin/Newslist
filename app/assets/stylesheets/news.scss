@@ -45,3 +45,26 @@
     display: inline;
   }
 }
+
+.search {
+  @extend .panel, .panel-info;
+
+  padding: 5px;
+  margin-bottom: 0;
+
+  h3 {
+    margin-top: 0;
+  }
+
+  input, select, button {
+    display: inline-block;
+  }
+
+  select, input.date {
+    max-width: 200px;
+  }
+
+  input.text {
+    max-width: 650px;
+  }
+}

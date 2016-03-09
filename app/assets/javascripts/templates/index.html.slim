@@ -1,12 +1,13 @@
 section.search
-  input type="date" placeholder="Start date" ng-model="start_date" ng-change="search(start_date, end_date, status, text)"
-  input type="date" placeholder="End date" ng-model="end_date" ng-change="search(start_date, end_date, status, text)"
-  select ng-model="status" ng-change="search(start_date, end_date, status, text)" ng-show="total"
+  h3 Search
+  input.form-control.date type="date" placeholder="Start date" ng-model="start_date" ng-change="search(start_date, end_date, status, text)"
+  input.form-control.date type="date" placeholder="End date" ng-model="end_date" ng-change="search(start_date, end_date, status, text)"
+  select.form-control ng-model="status" ng-change="search(start_date, end_date, status, text)" ng-show="total"
     option value="all" All
     option value="readed" Readed
     option value="unreaded" Unreaded
-  input type="text" placeholder="Author or text" ng-model="text" ng-change="search(start_date, end_date, status, text)"
-  button (ng-click="search(start_date, end_date, status, text)") Search
+  input.form-control.text type="text" placeholder="Author or text" ng-model="text" ng-change="search(start_date, end_date, status, text)"
+  button.btn.btn-primary (ng-click="search(start_date, end_date, status, text)") Search
 
 section.news
   h2 News
