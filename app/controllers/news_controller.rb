@@ -78,31 +78,4 @@ class NewsController < ApplicationController
       @read_status << current_user.read?(news) ? true : false
     end
   end
-
-  def search
-    unless params[:text].nil? || params[:text].empty?
-      @newslist = @newslist.where('author LIKE ? OR text LIKE ?',
-                                  "%#{params[:text]}%", "%#{params[:text]}%")
-    end
-
-    if params[:end_date].nil? || params[:end_date].empty?
-      params[:end_date] = Date.today.tomorrow.strftime("%Y-%m-%d")
-    end
-    params[:start_date] ||= ''
-    @newslist =
-      @newslist.where(created_at: params[:start_date]..params[:end_date])
-
-    final = []
-    @newslist.each do |item|
-      case params[:status]
-      when 'readed'
-        final << item if current_user.read?(item)
-      when 'unreaded'
-        final << item unless current_user.read?(item)
-      else
-        return
-      end
-    end
-    @newslist = final if final
-  end
 end
