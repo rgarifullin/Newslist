@@ -18,15 +18,15 @@ section.news
       p.author
         | {{ item.post.author }} -
       time.pubdate
-        | {{ item.post.created_at | date }}
-    .status ng-show="{{ total }}"
+        | {{ item.post.created_at }}
+    .status ng-show="can_stats"
       button.btn.btn-sm.btn-default ng-click="change_status(item.post.id)" ng-show="item.status" Unread
       button.btn.btn-sm.btn-primary ng-click="change_status(item.post.id)" ng-hide="item.status" Read
 
   .modalForm ng-controller='ModalController' ng-show='can_add'
     button.btn.btn-success (ng-click='open()') Add news
 
-aside.statistics ng-show="total"
+aside.statistics ng-show="can_stats"
   h2 Statistics
   section
     p Total news: {{ total }}

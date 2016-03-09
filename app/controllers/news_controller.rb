@@ -5,7 +5,7 @@ class NewsController < ApplicationController
       new_news = News.new
       can_add = true
     end
-
+    can_stats = can? :stats, News
     @newslist = Services::NewsSearcher.new(current_user, @newslist, params).search if params[:commit]
 
     read_statistics if can? :stats, News
@@ -16,7 +16,8 @@ class NewsController < ApplicationController
                                    today: @today,
                                    readed_today: @readed_today,
                                    read_status: @read_status,
-                                   can_add: can_add } }
+                                   can_add: can_add,
+                                   can_stats: can_stats } }
       format.html {}
     end
   end
