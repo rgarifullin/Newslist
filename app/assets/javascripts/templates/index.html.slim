@@ -2,7 +2,7 @@ section.search
   h3 Search
   input.form-control.date type="date" placeholder="Start date" ng-model="start_date" ng-change="search(start_date, end_date, status, text)"
   input.form-control.date type="date" placeholder="End date" ng-model="end_date" ng-change="search(start_date, end_date, status, text)"
-  select.form-control ng-model="status" ng-change="search(start_date, end_date, status, text)" ng-show="total"
+  select.form-control ng-model="status" ng-change="search(start_date, end_date, status, text)" ng-show="can_stats"
     option value="all" All
     option value="readed" Readed
     option value="unreaded" Unreaded
