@@ -74,7 +74,7 @@ class NewsController < ApplicationController
 
     @read_status = []
     @newslist.each do |news|
-      @read_status << current_user.read?(current_user, news) ? true : false
+      @read_status << current_user.read?(news) ? true : false
     end
   end
 
@@ -95,9 +95,9 @@ class NewsController < ApplicationController
     @newslist.each do |item|
       case params[:status]
       when 'readed'
-        final << item if current_user.read?(current_user, item)
+        final << item if current_user.read?(item)
       when 'unreaded'
-        final << item unless current_user.read?(current_user, item)
+        final << item unless current_user.read?(item)
       else
         return
       end

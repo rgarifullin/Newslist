@@ -8,8 +8,8 @@ class User < ActiveRecord::Base
   has_many :newsusers
   has_many :news, through: :newsusers
 
-  def read?(current_user, news)
-    newsuser = current_user.newsusers.find_by(news_id: news)
+  def read?(news)
+    newsuser = self.newsusers.find_by(news_id: news)
     newsuser && newsuser.read ? true : false
   end
 end
