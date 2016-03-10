@@ -1,6 +1,6 @@
 controllers = angular.module('controllers')
-controllers.controller('NewsController', [ '$scope', '$routeParams', '$location', '$resource',
-  ($scope, $routeParams, $location, $resource) ->
+controllers.controller('NewsController', [ '$scope', '$location', '$resource',
+  ($scope, $location, $resource) ->
     MS_PER_DAY = 86400000
 
     News = $resource('/news', { format: 'json' })
