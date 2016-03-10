@@ -15,7 +15,7 @@ class Services::NewsSearcher
 
     @list = News.where(query.join(' AND'))
 
-    condition_by_status(@params[:status]) if @params[:status]
+    condition_by_status(@params[:status])
   end
 
   private
@@ -41,8 +41,10 @@ class Services::NewsSearcher
   end
 
   def condition_by_status(status)
-    final = []
     @list ||= News.all
+    return @list if status == 'all' || status.nil?
+
+    final = []
     @list.each do |item|
       case @params[:status]
       when 'readed'
@@ -53,6 +55,6 @@ class Services::NewsSearcher
         next
       end
     end
-    @list = final if final
+    final
   end
 end
