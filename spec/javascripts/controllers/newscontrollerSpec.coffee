@@ -9,11 +9,10 @@ describe 'NewsController', ->
   httpBackend  = null
 
   setupController = (results)->
-    inject(($location, $routeParams, $rootScope, $resource, $httpBackend, $controller)->
+    inject(($location, $rootScope, $resource, $httpBackend, $controller)->
       scope       = $rootScope.$new()
       location    = $location
       resource    = $resource
-      routeParams = $routeParams
       httpBackend = $httpBackend
 
       if results
@@ -27,61 +26,32 @@ describe 'NewsController', ->
   results =
     newslist: [
       {
-        id: 1
-        author: "Fox"
-        text: "Britain scientists developed new amazing technology."
-        created_at: "2016-03-09T07:10:29.303Z"
-        updated_at: "2016-03-09T07:10:29.303Z"
+        news:
+          id: 1
+          author: 'Fox'
+          text: 'Britain scientists developed new amazing technology.'
+          created_at: '2016-03-09T07:10:29.303Z'
+          updated_at: '2016-03-09T07:10:29.303Z'
+        status:
+          id: 1
+          news_id: 1
+          user_id: 1
+          read: true
+          created_at: '2016-03-09T07:10:29.914Z'
+          updated_at: '2016-03-11T07:42:38.911Z'
       }
       {
-        id: 2
-        author: "Smith"
-        text: "New film about agent 007 was released."
-        created_at: "2016-03-09T07:10:29.360Z"
-        updated_at: "2016-03-09T07:10:29.360Z"
+        news:
+          id: 2
+          author: 'Smith'
+          text: 'New film about agent 007 was released.'
+          created_at: '2016-03-09T07:10:29.360Z'
+          updated_at: '2016-03-09T07:10:29.360Z'
+        status: false
       }
     ]
-    read_status: [
-      {
-        id: 1
-        news_id: 1
-        user_id: 1
-        read: true
-        created_at: "2016-03-09T07:10:29.914Z"
-        updated_at: "2016-03-09T07:55:47.825Z"
-      }
-      false
-    ]
-    can_add: true
+    can_add: false
     can_stats: true
-
-  response = [
-    {
-      post:
-        id: 1
-        author: 'Fox'
-        text: 'Britain scientists developed new amazing technology.'
-        created_at: '2016-03-09T07:10:29.303Z'
-        updated_at: '2016-03-09T07:10:29.303Z'
-      status:
-        id: 1
-        news_id: 1
-        user_id: 1
-        read: true
-        created_at: '2016-03-09T07:10:29.914Z'
-        updated_at: '2016-03-09T07:55:47.825Z'
-    }
-    {
-      post:
-        id: 2
-        author: 'Smith'
-        text: 'New film about agent 007 was released.'
-        created_at: '2016-03-09T07:10:29.360Z'
-        updated_at: '2016-03-09T07:10:29.360Z'
-
-      status: false
-    }
-  ]
 
   beforeEach ->
     setupController(results)
@@ -92,22 +62,31 @@ describe 'NewsController', ->
     httpBackend.verifyNoOutstandingRequest()
 
   it 'defaults to index page', ->
-    expect(scope.data).toEqual(response)
+    expect(scope.data).toEqual(results.newslist)
 
   describe 'save()', ->
     news =
-      id: 1
+      id: 3
       author: 'Lebedev'
       text: 'Welcome to our incredible jasmine test!'
-      created_at: '2016-03-10T14:17:06.116Z'
-      updated_at: '2016-03-10T14:17:06.116Z'
+      created_at: '2016-03-11T14:17:06.116Z'
+      updated_at: '2016-03-11T14:17:06.116Z'
+
+    newResponse = null
 
     beforeEach ->
       setupController()
-      httpBackend.expectGET('/news?format=json').respond(200)
+      httpBackend.expectGET('/news?format=json').respond(200, results)
       httpBackend.expectPOST('/news?format=json').respond(200, news)
 
-    it 'redirects to index after adding new news', ->
+      newResults = results
+      newResults.newslist.push({news: news, status: false})
+      newResponse = newResults.newslist
+
+      httpBackend.expectGET('/news?format=json').respond(200, newResults)
+
+    it 'update statistics after adding new news', ->
       scope.save()
       httpBackend.flush()
-      expect(location.path()).toBe('/')
+      expect(scope.data).toEqual(newResponse)
+      expect(scope.stats.total).toBe(3)
