@@ -34,7 +34,7 @@ controllers.controller('NewsController', [ '$scope', '$location', '$resource',
       onError = ->
         alert("Can't create new news")
       NewNews.create($scope.news, ( ->
-        $location.path('/')),
+        $scope.update()),
         onError
       )
 
@@ -44,7 +44,6 @@ controllers.controller('NewsController', [ '$scope', '$location', '$resource',
     $scope.$on('event:add', (ev, args) ->
       $scope.news = args
       $scope.save()
-      $scope.update()
     )
 
     $scope.search = (start_date, end_date, status, text) ->
