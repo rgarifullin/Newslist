@@ -5,24 +5,28 @@ controllers.controller('NewsController', [ '$scope', '$location', '$resource',
 
     News = $resource('/news', { format: 'json' })
 
-    News.get (results) ->
-      $scope.data = results.newslist.map (item, i) ->
-        { post: item, status: if results.read_status then results.read_status[i] else null }
-
-      $scope.total = results.newslist.length
-      $scope.total_readed = (item for item in results.read_status when item).length
+    calcStatistics = ->
+      $scope.total = $scope.data.length
+      $scope.total_readed = (true for item in $scope.data when item.status.read).length
       today_beginning = new Date()
       today_beginning.setHours(0, 0, 0, 0)
       $scope.today = 0
       for item in $scope.data
-        if Date.parse(item.post.created_at) > Date.parse(today_beginning) && Date.parse(item.post.created_at) < Date.parse(today_beginning) + MS_PER_DAY
+        if Date.parse(item.news.created_at) > Date.parse(today_beginning) && Date.parse(item.news.created_at) < Date.parse(today_beginning) + MS_PER_DAY
           $scope.today += 1
       $scope.readed_today = 0
-      for item in results.read_status
-        if Date.parse(item.updated_at) > Date.parse(today_beginning) && Date.parse(item.updated_at) < Date.parse(today_beginning) + MS_PER_DAY
+      for item in $scope.data
+        if Date.parse(item.status.updated_at) > Date.parse(today_beginning) && Date.parse(item.status.updated_at) < Date.parse(today_beginning) + MS_PER_DAY
           $scope.readed_today += 1
-      $scope.can_add = results.can_add
-      $scope.can_stats = results.can_stats
+
+    $scope.update = ->
+      News.get (results) ->
+        $scope.data = results.newslist
+        $scope.can_add = results.can_add
+        $scope.can_stats = results.can_stats
+        calcStatistics()
+
+    $scope.update()
 
     NewNews = $resource('/news', { format: 'json' }, { 'create': { method: 'POST' } })
 
@@ -40,36 +44,17 @@ controllers.controller('NewsController', [ '$scope', '$location', '$resource',
     $scope.$on('event:add', (ev, args) ->
       $scope.news = args
       $scope.save()
-      News.get (results) ->
-        $scope.data = results.newslist.map (item, i) ->
-          { post: item, status: if results.read_status then results.read_status[i] else null }
-        $scope.total = results.newslist.length
-        today_beginning = new Date()
-        today_beginning.setHours(0, 0, 0, 0)
-        $scope.today = 0
-        for item in $scope.data
-          if Date.parse(item.post.created_at) > Date.parse(today_beginning) && Date.parse(item.post.created_at) < Date.parse(today_beginning) + MS_PER_DAY
-            $scope.today += 1
+      $scope.update()
     )
 
     $scope.search = (start_date, end_date, status, text) ->
       News.get({ start_date: start_date, end_date: end_date, status: status, text: text, commit: 'Search'}, (results) ->
-        $scope.data = results.newslist.map (item, i) ->
-          { post: item, status: if results.read_status then results.read_status[i] else null }
+        $scope.data = results.newslist
       )
 
-    ChangeStatus = $resource('/news/:id/change_status', { id: '@id' }, { 'update': { method: 'PATCH' } })
+    ChangeStatus = $resource('/news/:id/change_status', { id: '@id', format: 'json' }, { 'update': { method: 'PATCH' } })
     $scope.change_status = (news_id) ->
       ChangeStatus.update({ id: news_id }, ->
       )
-      News.get (results) ->
-        $scope.data = results.newslist.map (item, i) ->
-          { post: item, status: if results.read_status then results.read_status[i] else null }
-        $scope.total_readed = (item for item in results.read_status when item).length
-        today_beginning = new Date()
-        today_beginning.setHours(0, 0, 0, 0)
-        $scope.readed_today = 0
-        for item in results.read_status
-          if Date.parse(item.updated_at) > Date.parse(today_beginning) && Date.parse(item.updated_at) < Date.parse(today_beginning) + MS_PER_DAY
-            $scope.readed_today += 1
+      $scope.update()
 ])

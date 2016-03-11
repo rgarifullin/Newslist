@@ -13,15 +13,15 @@ section.news
   h2 News
   article ng-repeat="item in data"
     p.newstext
-      | {{ item.post.text }}
+      | {{ item.news.text }}
     footer.news-footer
       p.author
-        | {{ item.post.author }} -
+        | {{ item.news.author }} -
       time.pubdate
-        | {{ item.post.created_at | date }}
+        | {{ item.news.created_at | date }}
     .status ng-show="can_stats"
-      button.btn.btn-sm.btn-default ng-click="change_status(item.post.id)" ng-show="item.status" Unread
-      button.btn.btn-sm.btn-primary ng-click="change_status(item.post.id)" ng-hide="item.status" Read
+      button.btn.btn-sm.btn-default ng-click="change_status(item.news.id)" ng-show="item.status.read" Unread
+      button.btn.btn-sm.btn-primary ng-click="change_status(item.news.id)" ng-hide="item.status.read" Read
 
   .modalForm ng-controller='ModalController' ng-show='can_add'
     button.btn.btn-success (ng-click='open()') Add news
