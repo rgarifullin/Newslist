@@ -21,23 +21,15 @@ class Services::NewsSearcher
   private
 
   def condition_by_date(start_date, end_date)
-    if end_date.nil? || end_date.empty?
-      end_date = Date.today.tomorrow.strftime("%Y-%m-%d")
-    else
-      end_date = end_date.split('T').first
-    end
+    start_date = DateTime.new if start_date.nil? || start_date.empty?
 
-    if start_date.nil? || start_date.empty?
-      start_date = Date.new(1970, 1, 1)
-    else
-      start_date = start_date.split('T').first
-    end
+    end_date = DateTime.now.tomorrow if end_date.nil? || end_date.empty?
 
     "created_at BETWEEN '#{start_date}' AND '#{end_date}'"
   end
 
   def condition_by_text(text)
-    "author LIKE '%#{@params[:text]}%' OR text LIKE '%#{@params[:text]}%'"
+    "author LIKE '%#{text}%' OR text LIKE '%#{text}%'"
   end
 
   def condition_by_status(status)
@@ -46,7 +38,7 @@ class Services::NewsSearcher
 
     final = []
     @list.each do |item|
-      case @params[:status]
+      case status
       when 'readed'
         final << item if @user.read?(item)
       when 'unreaded'
