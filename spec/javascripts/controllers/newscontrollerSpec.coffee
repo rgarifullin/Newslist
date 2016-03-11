@@ -30,23 +30,23 @@ describe 'NewsController', ->
           id: 1
           author: 'Fox'
           text: 'Britain scientists developed new amazing technology.'
-          created_at: '2016-03-09T07:10:29.303Z'
-          updated_at: '2016-03-09T07:10:29.303Z'
+          created_at: new Date()
+          updated_at: new Date()
         status:
           id: 1
           news_id: 1
           user_id: 1
           read: true
-          created_at: '2016-03-09T07:10:29.914Z'
-          updated_at: '2016-03-11T07:42:38.911Z'
+          created_at: new Date()
+          updated_at: new Date()
       }
       {
         news:
           id: 2
           author: 'Smith'
           text: 'New film about agent 007 was released.'
-          created_at: '2016-03-09T07:10:29.360Z'
-          updated_at: '2016-03-09T07:10:29.360Z'
+          created_at: new Date()
+          updated_at: new Date()
         status: false
       }
     ]
@@ -69,13 +69,14 @@ describe 'NewsController', ->
       id: 3
       author: 'Lebedev'
       text: 'Welcome to our incredible jasmine test!'
-      created_at: '2016-03-11T14:17:06.116Z'
-      updated_at: '2016-03-11T14:17:06.116Z'
+      created_at: new Date()
+      updated_at: new Date()
 
     newResponse = null
 
     beforeEach ->
       setupController()
+
       httpBackend.expectGET('/news?format=json').respond(200, results)
       httpBackend.expectPOST('/news?format=json').respond(200, news)
 
@@ -88,5 +89,24 @@ describe 'NewsController', ->
     it 'update statistics after adding new news', ->
       scope.save()
       httpBackend.flush()
+
       expect(scope.data).toEqual(newResponse)
       expect(scope.stats.total).toBe(3)
+
+  describe 'calcStatistics()', ->
+    beforeEach ->
+      setupController(results)
+      scope.update()
+
+      httpBackend.expectGET('/news?format=json').respond(200, results)
+
+    it 'calculates right statistics after call of update()', ->
+      httpBackend.flush()
+
+      stats =
+        total: results.newslist.length
+        total_readed: 1
+        today: results.newslist.length
+        readed_today: 1
+
+      expect(scope.stats).toEqual(stats)
