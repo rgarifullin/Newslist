@@ -19,7 +19,7 @@ RSpec.describe 'routing to news', :type => :routing do
     expect(patch: '/news/1/change_status').to route_to(
       controller: 'news',
       action: 'change_status',
-      news_id: '1'
+      id: '1'
     )
   end
 end
