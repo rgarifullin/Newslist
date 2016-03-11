@@ -1,19 +1,15 @@
 class NewsController < ApplicationController
   def index
     @newslist = News.all
-    if can? :add, News
-      new_news = News.new
-      can_add = true
+    if params[:commit]
+      @newslist = Services::NewsSearcher.new(current_user, params).search
     end
-    can_stats = can? :stats, News
-    @newslist = Services::NewsSearcher.new(current_user, params).search if params[:commit]
 
-    read_statistics if can? :stats, News
+    prepare_data
     respond_to do |format|
       format.json { render json: { newslist: @newslist,
-                                   read_status: @read_status,
-                                   can_add: can_add,
-                                   can_stats: can_stats } }
+                                   can_add: (can? :add, News),
+                                   can_stats: (can? :stats, News) } }
       format.html {}
     end
   end
@@ -58,10 +54,17 @@ class NewsController < ApplicationController
     params.require(:news).permit(:author, :text)
   end
 
-  def read_statistics
-    @read_status = []
-    @newslist.each do |news|
-      @read_status << if current_user.read?(news) then Newsuser.find_by(user_id: current_user, news_id: news) else false end
+  def prepare_data
+    @newslist = @newslist.map do |news|
+      {
+        news: news,
+        status:
+          if (can? :stats, News) && current_user.read?(news)
+            Newsuser.find_by(user_id: current_user, news_id: news)
+          else
+            false
+          end
+      }
     end
   end
 end
