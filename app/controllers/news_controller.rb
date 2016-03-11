@@ -24,7 +24,6 @@ class NewsController < ApplicationController
     respond_to do |format|
       if news.save
         flash[:success] = t('flash_messages.create.success', resource: @news)
-        #redirect_to news_path
         format.json { render json: news }
         format.html {}
       else
@@ -44,8 +43,9 @@ class NewsController < ApplicationController
       newsuser.read ^= true
       newsuser.save
     end
-
-    redirect_to news_index_path
+    respond_to do |format|
+      format.json { render :nothing => true }
+    end
   end
 
   private
