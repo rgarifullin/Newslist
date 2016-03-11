@@ -6,18 +6,25 @@ controllers.controller('NewsController', [ '$scope', '$location', '$resource',
     News = $resource('/news', { format: 'json' })
 
     calcStatistics = ->
-      $scope.total = $scope.data.length
-      $scope.total_readed = (true for item in $scope.data when item.status.read).length
+      $scope.stats = {}
+      $scope.stats.total = $scope.data.length
+      $scope.stats.total_readed =
+        (true for item in $scope.data when item.status.read).length
+
       today_beginning = new Date()
       today_beginning.setHours(0, 0, 0, 0)
-      $scope.today = 0
+
+      $scope.stats.today = 0
       for item in $scope.data
-        if Date.parse(item.news.created_at) > Date.parse(today_beginning) && Date.parse(item.news.created_at) < Date.parse(today_beginning) + MS_PER_DAY
-          $scope.today += 1
-      $scope.readed_today = 0
+        if Date.parse(item.news.created_at) > Date.parse(today_beginning) &&
+           Date.parse(item.news.created_at) < Date.parse(today_beginning) + MS_PER_DAY
+          $scope.stats.today += 1
+
+      $scope.stats.readed_today = 0
       for item in $scope.data
-        if Date.parse(item.status.updated_at) > Date.parse(today_beginning) && Date.parse(item.status.updated_at) < Date.parse(today_beginning) + MS_PER_DAY
-          $scope.readed_today += 1
+        if Date.parse(item.status.updated_at) > Date.parse(today_beginning) &&
+           Date.parse(item.status.updated_at) < Date.parse(today_beginning) + MS_PER_DAY
+          $scope.stats.readed_today += 1
 
     $scope.update = ->
       News.get (results) ->
