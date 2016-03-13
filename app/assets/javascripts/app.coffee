@@ -13,10 +13,6 @@ app.config([ '$routeProvider',
         templateUrl: 'index.html'
         controller: 'NewsController'
       )
-      .when('/news/new',
-        templateUrl: 'new.html'
-        controller: 'NewsController'
-      )
 ])
 
 controllers = angular.module('controllers', [])
