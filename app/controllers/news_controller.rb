@@ -20,6 +20,7 @@ class NewsController < ApplicationController
   end
 
   def create
+    redirect_to root_path unless can? :manage, News
     news = News.new(news_params)
     respond_to do |format|
       if news.save
