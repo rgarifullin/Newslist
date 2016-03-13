@@ -19,5 +19,8 @@
 //= require angular-resource
 //= require angular-ui
 //= require angular-ui-bootstrap-tpls
+//= require react
+//= require react_ujs
+//= require components
 //= require_tree ./templates
 //= require_tree .

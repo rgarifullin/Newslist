@@ -60,3 +60,5 @@ gem 'angular-rails-templates'
 gem 'angular-ui-bootstrap-rails'
 gem 'angular-ui-rails'
 gem 'angular_rails_csrf'
+
+gem 'react-rails', '~> 1.6.0'
