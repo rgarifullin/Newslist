@@ -1,2 +1,1 @@
-.newslist ng-app='newslist'
-  .view-frame.animate-view (ng-view)
+= react_component 'List', { newslist: @newslist, can_stats: (can? :stats, News), can_add: (can? :add, News) }
