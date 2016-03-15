@@ -23,6 +23,11 @@ class List extends React.Component {
       );
     });
 
+    let addNew;
+    if (this.props.can_add) {
+      addNew = <NewNews show={false} updateData={update} />
+    }
+
     if (typeof posts !== undefined && posts.length > 0)
     {
       return (
@@ -30,6 +35,7 @@ class List extends React.Component {
           <section className="news">
             <h2>News</h2>
             {posts}
+            {addNew}
           </section>
           <Statistics data={this.props.newslist}/>
         </div>
@@ -39,6 +45,7 @@ class List extends React.Component {
         <section className="news">
           <h2>News</h2>
           <p>No news are available</p>
+          {addNew}
         </section>
       )
     }
