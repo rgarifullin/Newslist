@@ -17,37 +17,36 @@ class List extends React.Component {
     let can_add = this.props.can_add;
     let update = this.handleUpdateData.bind(this);
 
-    let posts = this.props.newslist.map(function(post) {
-      return (
-        <News post={post} can_stats={can_stats} updateData={update} key={post.news.id} />
-      );
-    });
+    let posts;
+    if (typeof this.props.newslist !== undefined && this.props.newslist.length > 0)
+    {
+      posts = this.props.newslist.map(function(post) {
+        return (
+          <News post={post} can_stats={can_stats} updateData={update} key={post.news.id} />
+        );
+      });
+    } else {
+      posts = <p>No news are available</p>;
+    }
 
     let addNew;
     if (this.props.can_add) {
       addNew = <NewNews show={false} updateData={update} />
     }
 
-    if (typeof posts !== undefined && posts.length > 0)
-    {
-      return (
-        <div>
-          <section className="news">
-            <h2>News</h2>
-            {posts}
-            {addNew}
-          </section>
-          <Statistics data={this.props.newslist}/>
-        </div>
-      );
-    } else {
-      return (
+    let showStats;
+    if (this.props.can_stats)
+      showStats = <Statistics data={this.props.newslist}/>;
+
+    return (
+      <div>
         <section className="news">
           <h2>News</h2>
-          <p>No news are available</p>
+          {posts}
           {addNew}
         </section>
-      )
-    }
+        {showStats}
+      </div>
+    );
   }
 }
