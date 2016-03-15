@@ -21,6 +21,7 @@
 //= require angular-ui-bootstrap-tpls
 //= require react
 //= require react_ujs
+//= require react_bootstrap
 //= require components
 //= require_tree ./templates
 //= require_tree .
