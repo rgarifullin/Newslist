@@ -1,11 +1,25 @@
 class List extends React.Component {
+  handleUpdateData() {
+    $.ajax({
+      url: '/',
+      dataType: 'json',
+      success: function(data) {
+        this.setState({newslist: data.newslist});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  }
+
   render () {
     let can_stats = this.props.can_stats;
     let can_add = this.props.can_add;
+    let update = this.handleUpdateData.bind(this);
 
     let posts = this.props.newslist.map(function(post) {
       return (
-        <News post={post} can_stats={can_stats} key={post.news.id} />
+        <News post={post} can_stats={can_stats} updateData={update} key={post.news.id} />
       );
     });
 

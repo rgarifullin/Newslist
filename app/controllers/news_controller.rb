@@ -45,7 +45,7 @@ class NewsController < ApplicationController
       newsuser.save
     end
     respond_to do |format|
-      format.json { render json: { status: newsuser.read } }
+      format.json { render json: { status: newsuser.read ? newsuser : false } }
     end
   end
 

@@ -5,18 +5,9 @@ class News extends React.Component {
       method: 'PATCH',
       dataType: 'json',
       success: function(statusData) {
-        $.ajax({
-          url: '/',
-          dataType: 'json',
-          success: function(data) {
-            let newState = this.props.post;
-            newState.status = statusData.status;
-            this.setState({post: newState});
-          }.bind(this),
-          error: function(xhr, status, err) {
-            console.error(this.props.url, status, err.toString());
-          }.bind(this)
-        });
+        let newState = this.props.post;
+        newState.status = statusData.status;
+        this.props.updateData();
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
