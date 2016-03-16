@@ -29,7 +29,6 @@ class NewNews extends React.Component {
         this.setState({text: event.target.value });
         break;
     }
-    console.log(this.state.author, event.target.value);
   }
 
   save() {
