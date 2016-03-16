@@ -13,15 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
-//= require angular
-//= require angular-rails-templates
-//= require angular-route
-//= require angular-resource
-//= require angular-ui
-//= require angular-ui-bootstrap-tpls
 //= require react
 //= require react_ujs
 //= require react_bootstrap
 //= require components
-//= require_tree ./templates
 //= require_tree .
