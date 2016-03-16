@@ -32,7 +32,7 @@ class Statistics extends React.Component {
     stats.update(this.props.data);
 
     return (
-      <aside className="statistics">
+      <aside className="statistics" ref="stats_aside">
         <h2>Statistics</h2>
         <section>
           <p>Total news: { stats.total }</p>

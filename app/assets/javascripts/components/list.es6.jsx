@@ -45,19 +45,14 @@ class List extends React.Component {
     let update = this.handleUpdateData.bind(this);
     let search = this.handleSearch.bind(this);
 
-    let addNew;
-    if (this.props.can_add) {
-      addNew = <NewNews show={false} updateData={update} />
-    }
-
     let showStats;
     if (this.props.can_stats)
-      showStats = <Statistics data={this.state.newslist}/>;
+      showStats = <Statistics ref="stats" data={this.state.newslist}/>;
 
     return (
-      <div>
-        <Search can_stats={can_stats} updateData={search} />
-        <Feed newslist={this.state.newslist} can_stats={can_stats} can_add={can_add} updateData={update} />
+      <div ref="main">
+        <Search ref="search" can_stats={can_stats} updateData={search} />
+        <Feed ref="feed" newslist={this.state.newslist} can_stats={can_stats} can_add={can_add} updateData={update} />
         {showStats}
       </div>
     );

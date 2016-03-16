@@ -17,12 +17,12 @@ class Feed extends React.Component {
         );
       });
     } else {
-      posts = <p>No news are available</p>;
+      posts = <p ref="msg">No news are available</p>;
     }
 
     let addNew;
     if (this.props.can_add) {
-      addNew = <NewNews show={false} updateData={update} />
+      addNew = <NewNews ref="new" show={false} updateData={update} />
     }
 
     return (

@@ -30,18 +30,18 @@ class News extends React.Component {
     if (this.props.can_stats) {
       let boundClick = this.handleClick.bind(this, this.props.post.news.id, this.props.post.status);
       if (this.props.post.status) {
-        button = <button className="btn btn-sm btn-default" onClick={boundClick}>Unread</button>;
+        button = <button ref="read"className="btn btn-sm btn-default" onClick={boundClick}>Unread</button>;
       } else {
-        button = <button className="btn btn-sm btn-primary" onClick={boundClick}>Read</button>;
+        button = <button ref="read" className="btn btn-sm btn-primary" onClick={boundClick}>Read</button>;
       }
     }
 
     return (
       <article>
-        <p className="newstext">{this.props.post.news.text}</p>
+        <p ref="text" className="newstext">{this.props.post.news.text}</p>
         <footer className="news-footer">
-          <p>{this.props.post.news.author} - </p>
-          <time className="pubdate">{this.formatDate(this.props.post.news.created_at)}</time>
+          <p ref="author">{this.props.post.news.author} - </p>
+          <time ref="pubtime" className="pubdate">{this.formatDate(this.props.post.news.created_at)}</time>
         </footer>
         {button}
       </article>
