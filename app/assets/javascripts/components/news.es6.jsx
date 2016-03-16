@@ -15,6 +15,16 @@ class News extends React.Component {
     });
   }
 
+  formatDate(date) {
+    let parsed = new Date(date).toString().split(" ");
+
+    let monthDay = parsed.slice(1, 3).join(" ");
+    let year = parsed.slice(3, 4).join(" ");
+    let time = parsed.slice(4, 5).join().substring(0, 5);
+
+    return monthDay + ", " + year + " " + time;
+  }
+
   render() {
     let button;
     if (this.props.can_stats) {
@@ -31,7 +41,7 @@ class News extends React.Component {
         <p className="newstext">{this.props.post.news.text}</p>
         <footer className="news-footer">
           <p>{this.props.post.news.author} - </p>
-          <time className="pubdate">{this.props.post.news.created_at}</time>
+          <time className="pubdate">{this.formatDate(this.props.post.news.created_at)}</time>
         </footer>
         {button}
       </article>
