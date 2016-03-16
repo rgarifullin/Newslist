@@ -42,16 +42,20 @@ class Search extends React.Component {
 
     let handleChange = this.handleChange.bind(this);
 
+    let status;
+    if (this.props.can_stats)
+      status = <select className="form-control" name="status" onChange={handleChange}>
+        <option value="all">All</option>
+        <option value="readed">Readed</option>
+        <option value="unreaded">Unreaded</option>
+      </select>;
+
     return (
       <section className="search">
         <h3>Search</h3>
         <Input className="date" type="date" name="start_date" placeholder="Start date" onChange={handleChange} />
         <Input className="date" type="date" name="end_date" placeholder="End date" onChange={handleChange} />
-        <select className="form-control" name="status" onChange={handleChange}>
-          <option value="all">All</option>
-          <option value="readed">Readed</option>
-          <option value="unreaded">Unreaded</option>
-        </select>
+        {status}
         <Input className="text" type="text" name="text" placeholder="Author or text" onChange={handleChange} />
       </section>
     );
