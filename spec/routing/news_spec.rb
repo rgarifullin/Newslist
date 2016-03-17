@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'routing to news', :type => :routing do
+RSpec.describe 'routing to news', type: :routing do
   it 'routes / to news#index' do
     expect(get: '/').to route_to(
       controller: 'news',
