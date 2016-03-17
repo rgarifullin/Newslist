@@ -47,7 +47,7 @@ class List extends React.Component {
 
     let showStats;
     if (this.props.can_stats)
-      showStats = <Statistics ref="stats" data={this.state.newslist}/>;
+      showStats = <Statistics ref="stats" lastUpdate={new Date} />;
 
     return (
       <div ref="main">
