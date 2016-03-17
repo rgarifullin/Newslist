@@ -16,9 +16,9 @@ section.news
       | {{ item.news.text }}
     footer.news-footer
       p.author
-        | {{ item.news.author }} -
+        | {{ item.news.author }}
       time.pubdate
-        | {{ item.news.created_at | date : 'MMM d, y HH:mm' }}
+        | - {{ item.news.created_at | date : 'MMM d, y HH:mm' }}
     .status ng-show="can_stats"
       button.btn.btn-sm.btn-default ng-click="change_status(item.news.id)" ng-show="item.status.read" Unread
       button.btn.btn-sm.btn-primary ng-click="change_status(item.news.id)" ng-hide="item.status.read" Read
