@@ -53,8 +53,8 @@ class Search extends React.Component {
     return (
       <section className="search">
         <h3>Search</h3>
-        <Input className="date" type="date" name="start_date" placeholder="Start date" onChange={handleChange} />
-        <Input className="date" type="date" name="end_date" placeholder="End date" onChange={handleChange} />
+        <input className="date form-control" type="date" name="start_date" placeholder="Start date" onChange={handleChange} />
+        <input className="date form-control" type="date" name="end_date" placeholder="End date" onChange={handleChange} />
         {status}
         <Input className="text" type="text" name="text" placeholder="Author or text" onChange={handleChange} />
       </section>
